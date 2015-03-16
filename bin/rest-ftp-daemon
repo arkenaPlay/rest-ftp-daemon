@@ -27,6 +27,11 @@ parser = OptionParser.new do |opts|
   opts.on("-e", "--environment ENV")                                   { |env| APP_ENV = env }
   opts.on("",   "--dev")                                               { APP_ENV = "development" }
   opts.on("-p", "--port PORT", "use PORT")                             { |port| options["port"] = port.to_i }
+
+  opts.on("-s", "--ssl", "activate SSL with a dummy cert")             { options["ssl"] = true }
+  opts.on("", "--cert FILE", "use certificate file")        { |file| options["ssl"] ||= {}; options["cert"] = file }
+  opts.on("", "--key FILE", "use privte key file")          { |file| options["ssl"] ||= {}; options["key"]  = file }
+
   opts.on("-w", "--workers COUNT", "Use COUNT worker threads")         { |count| options["workers"] = count.to_i }
   opts.on("-d", "--daemonize", "Run daemonized in the background")     { |bool| options["daemonize"] = true }
   opts.on("-f", "--foreground", "Run in the foreground")               { |bool| options["daemonize"] = false }
@@ -80,7 +85,6 @@ argv << ["-e", Settings.namespace]
 argv << ["-p", Settings["port"].to_s] unless Settings["port"].nil?
 argv << ["--pid", Settings.pidfile]
 argv << ["--tag", "'#{APP_NAME}/#{Settings.namespace}'"]
-argv << ["--log", Settings["logs"]["thin"].to_s] unless Settings["logs"]["thin"].nil? if Settings["logs"].is_a? Enumerable
 argv << ["--daemonize"] if [1, true].include? Settings["daemonize"]
 # User / group
 if Settings["user"] && Settings["group"]
@@ -88,6 +92,21 @@ if Settings["user"] && Settings["group"]
   argv << ["--group", Settings["group"]]
 end
 argv << command unless command.nil? rescue nil
+
+# ARGV: SSL config
+if Settings['ssl'] == true
+  ssl_status = "YES (no certificates)"
+  argv << ["--ssl"]
+elsif (Settings['ssl'].is_a? Hash) && (cert=Settings['ssl']['cert']) && (key=Settings['ssl']['key'])
+  abort "ABORTING: SSL certificate file not found: #{cert}" unless File.readable? cert
+  abort "ABORTING: SSL private key file not found: #{key}" unless File.readable? cert
+  argv << ["--ssl"]
+  argv << ["--ssl-cert-file", cert]
+  argv << ["--ssl-key-file", key]
+  ssl_status = "YES (#{File.basename cert}, #{File.basename key})"
+else
+  ssl_status = "no"
+end
 # Display final configuration
 puts "--- #{APP_NAME} #{APP_VER}"
 puts "Config file  \t #{APP_CONF}"
@@ -96,6 +115,7 @@ puts "Daemonize    \t #{Settings['daemonize'] ? 'YES' : "no"}"
 puts "Namespace    \t #{Settings.namespace}"
 puts "Network port \t #{Settings['port']}"
 puts "User:group   \t #{Settings['user']}:#{Settings['group']}" if Settings['user'] || Settings['group']
+puts "SSL          \t #{ssl_status}"
 puts Settings.to_hash.to_yaml( :Indent => 4, :UseHeader => true, :UseVersion => false )
 puts
 puts "--- Thin ARGV"
