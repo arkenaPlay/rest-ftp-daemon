@@ -34,6 +34,7 @@ As of today, its main features are :
 * Global bitrate on the whole file transfer is re-computed after the transfer finishes
 * Daemon process is tagged with its name and environement in process lists
 * Allow basic patterns in source filename to match multiple files (/dir/file*.jpg)
+* SSL acces to the web interface and the file transfer API
 
 Expected features in a short-time range :
 
