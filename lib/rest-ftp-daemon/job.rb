@@ -362,6 +362,21 @@ module RestFtpDaemon
 
   private
 
+    def push_progress progress, bitrate
+      publication = @push.publish("/updates", {
+        what: "progress",
+        key: @key.to_s,
+        id: @id,
+        progress: "#{progress}%",
+        bitrate: Helpers.format_bytes(bitrate, "bps"),
+        })
+
+      # Handle publication errors
+      publication.errback do |error|
+        puts 'Job.push_progress ERROR: ' + error.inspect
+      end
+    end
+
     def push_job
       publication = @push.publish("/updates", {
         what: "job",
@@ -388,6 +403,7 @@ module RestFtpDaemon
     #     puts 'Job.push ERROR: ' + error.inspect
     #   end
     # end
+      push_job
     def flag_default name, default
       # build the flag instance var name
       variable = "@#{name.to_s}"
