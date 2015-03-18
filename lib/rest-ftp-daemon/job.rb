@@ -65,6 +65,8 @@ module RestFtpDaemon
       # Send first notification
       info "Job.initialize notify: queued"
       client_notify :queued
+      # Prepare Faye push client
+      @push = Faye::Client.new("http://localhost:#{Settings.port}/push")
     end
 
     def process
@@ -355,6 +357,32 @@ module RestFtpDaemon
 
   private
 
+    def push_job
+      publication = @push.publish("/updates", {
+        what: "job",
+        key: @key.to_s,
+        id: @id,
+        })
+
+      # Handle publication errors
+      publication.errback do |error|
+        puts 'Job.push_job ERROR: ' + error.inspect
+      end
+    end
+
+    # def push payload
+    #   # info "Job.push [#{what}] [#{p1}]"
+    #   header = {what: "job", key: @key.to_s, id: @id}
+
+    #   # Publish push message
+    #   payload = payload.merge! header
+    #   publication = @push.publish("/updates", payload)
+
+    #   # Handle publication errors
+    #   publication.errback do |error|
+    #     puts 'Job.push ERROR: ' + error.inspect
+    #   end
+    # end
     def flag_default name, default
       # build the flag instance var name
       variable = "@#{name.to_s}"
@@ -588,6 +616,9 @@ module RestFtpDaemon
 
         # Update time pointer
         t0 = Time.now
+
+        # Push update
+        #push_progress percent0, bitrate0, target_name
 
         # Notify if requested
         unless notify_after_sec.nil? || (notified_at + notify_after_sec > Time.now)

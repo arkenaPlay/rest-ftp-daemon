@@ -7,6 +7,7 @@ require 'haml'
 require "facter"
 require "sys/cpu"
 require 'syslog'
+require 'faye'
 
 
 # My libs

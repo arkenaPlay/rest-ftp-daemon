@@ -28,6 +28,9 @@ module RestFtpDaemon
       @counters = {}
       @mutex_counters = Mutex.new
 
+      # Prepare Faye push client
+      @push = Faye::Client.new("http://localhost:#{Settings.port}/push")
+
       # Conchita configuration
       @conchita = Settings.conchita
       if @conchita.nil?
@@ -124,6 +127,9 @@ module RestFtpDaemon
         rescue ThreadError
           retry
         end
+
+        # Push queue event
+        push_pqueue
       end
     end
     alias << push
@@ -184,6 +190,10 @@ module RestFtpDaemon
       loop do
         conchita_clean JOB_STATUS_FINISHED
         conchita_clean :failed
+
+        # Push queue event
+        push_pqueue
+
         sleep @conchita[:timer]
       end
     end
@@ -226,9 +236,31 @@ module RestFtpDaemon
       @queued.delete_if { |item| item == picked }
       @popped.push picked
 
+      # Push queue event
+      push_pqueue
+
       # Return picked
       #info "JobQueue.pick_one: #{picked.id}"
       picked
+    end
+
+    def push_pqueue
+      begin
+        # Publish message to push system
+        publication = @push.publish("/updates", {
+          what: "queue",
+          })
+
+        # Handle publication errors
+        publication.errback do |error|
+          puts 'JobQueue.push_pqueue ERROR: ' + error.inspect
+        end
+
+      rescue Exception => exception
+         info "PUSH EXCEPTION: #{e.inspect}"
+
+      end
+
     end
 
   private

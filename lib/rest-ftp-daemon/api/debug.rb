@@ -20,6 +20,15 @@ module RestFtpDaemon
         end
       end
 
+      get '/publish' do
+        info "GET /publish"
+
+        # client = Faye::Client.new('http://localhost:3100/push')
+
+        msg = {what: "ping", caption: "ping: tout va bien"}
+        #publication = $push.publish("/updates", msg)
+      end
+
     end
   end
 end
