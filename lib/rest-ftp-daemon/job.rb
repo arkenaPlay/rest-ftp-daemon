@@ -11,6 +11,7 @@ module RestFtpDaemon
     attr_accessor :wid
 
     attr_reader :id
+    attr_reader :key
     attr_reader :error
     attr_reader :status
 
@@ -40,6 +41,9 @@ module RestFtpDaemon
       @status = nil
       @wid = nil
 
+      # Generate unique key
+      @key = Helpers.identifier JOB_KEY_LEN
+
       # Debug mode
       @ftp_debug_enabled = (Settings.at :debug, :ftp) == true
 
@@ -63,8 +67,9 @@ module RestFtpDaemon
       @queued_at = Time.now
 
       # Send first notification
-      info "Job.initialize notify: queued"
+      # info "Job.initialize (key: #{@key}) notify: queued"
       client_notify :queued
+
       # Prepare Faye push client
       @push = Faye::Client.new("http://localhost:#{Settings.port}/push")
     end

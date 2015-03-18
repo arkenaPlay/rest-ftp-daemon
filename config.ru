@@ -20,7 +20,8 @@ unless Settings.adminpwd.nil?
 end
 
 # Serve static assets
-use Rack::Static, :urls => ["/css", "/images"], :root => "#{APP_LIBS}/static/"
+use Rack::Static, :urls => ["/css", "/js"], :root => "#{APP_LIBS}/static/"
+
 # Faye pub/sub
 use Faye::RackAdapter, :mount => '/push', :timeout => 10, :ping => 10 do |server|
   server.on(:handshake) do |client_id|
