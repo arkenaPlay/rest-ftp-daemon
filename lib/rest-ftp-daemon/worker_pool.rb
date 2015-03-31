@@ -71,7 +71,21 @@ module RestFtpDaemon
         # Start working
         loop do
           begin
-            work
+
+            report = MemoryProfiler.report do
+              1000.times do
+                work
+              end
+              puts "FINISHED RUNNING"
+              worker_status :reporting
+            end
+
+            puts "STARTING REPORTING"
+            filename = LOG_DUMPS + "report-worker-#{Time.now.to_s}.txt"
+            io = File.open(filename, 'w')
+            report.pretty_print(io)
+            puts "FINISHED REPORTING"
+
           rescue Exception => ex
             puts "WORKER UNEXPECTED CRASH: #{ex.message}", lines: ex.backtrace
             sleep 1

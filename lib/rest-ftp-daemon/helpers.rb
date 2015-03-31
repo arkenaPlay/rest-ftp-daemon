@@ -1,6 +1,16 @@
 module RestFtpDaemon
   class Helpers
 
+    def self.dump_path object
+      oid = object.id
+      oid = object.class
+
+      filename = LOG_DUMPS + "report-worker-#{Time.now.to_s}.txt"
+
+      io = File.open(filename, 'w')
+      report.pretty_print(io)
+    end
+
     def self.get_censored_config
       config = Settings.to_hash
       config[:users] = Settings.users.keys if Settings.users

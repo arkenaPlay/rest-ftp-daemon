@@ -13,6 +13,9 @@ module RestFtpDaemon
 
       # Server global status
       get '/' do
+
+        report = MemoryProfiler.report do
+
         info "GET /"
 
         # Initialize Facter
@@ -44,7 +47,14 @@ module RestFtpDaemon
         format "html"
         status 200
         content_type "text/html"
+
         body output
+
+        end
+
+        filename = LOG_DUMPS + "report-dashboard-#{Time.now.to_s}.txt"
+        io = File.open(filename, 'w')
+        report.pretty_print(io)
       end
 
     end

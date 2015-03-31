@@ -19,6 +19,7 @@ require 'securerandom'
 
 
 require 'newrelic_rpm'
+require 'memory_profiler'
 require 'get_process_mem'
 
 # Project's libs
