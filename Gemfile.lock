@@ -49,6 +49,8 @@ GEM
     facter (2.4.4)
       CFPropertyList (~> 2.2.6)
     ffi (1.9.8)
+    ftpd (1.1.1)
+      memoizer (~> 1.0)
     get_process_mem (0.2.0)
     grape (0.11.0)
       activesupport
@@ -78,6 +80,7 @@ GEM
     i18n (0.7.0)
     ice_nine (0.11.1)
     json (1.8.3)
+    memoizer (1.0.1)
     method_source (0.8.2)
     minitest (5.7.0)
     multi_json (1.11.0)
@@ -146,6 +149,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.6)
+  ftpd (~> 1.1)
   http (~> 0.8)
   pry
   rake
