@@ -470,7 +470,7 @@ module RestFtpDaemon
       raise RestFtpDaemon::JobAssertionFailed, "ftp_connect/1" if @ftp.nil?
       raise RestFtpDaemon::JobAssertionFailed, "ftp_connect/2" if @target_url.nil?
 
-      @ftp.connect(host)
+      @ftp.connect(host, 40_000)
     end
 
     def ftp_login
