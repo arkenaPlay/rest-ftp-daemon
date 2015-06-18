@@ -34,6 +34,15 @@ describe "File transfers", feature: true do
     FileUtils.rm_f @dir
   end
 
+  def when_job_completes(job_id, delay: 0.5, timeout: 5)
+    Timeout.timeout(timeout) do
+      until JSON.parse(get("/jobs/#{job_id}")).fetch('status') == "finished"
+        sleep delay
+      end
+      yield
+    end
+  end
+
   context "for a local file" do
     let(:source) { @dir.join('foo') }
     let(:target) { "ftp://user:pass@localhost:#{@ftp_server.bound_port}/bar" }
@@ -44,10 +53,11 @@ describe "File transfers", feature: true do
     end
 
     it "transfers the file from one location to another" do
-      post("/jobs", json: {source: source.to_s, target: target})
+      response = JSON.parse post("/jobs", json: {source: source.to_s, target: target})
 
-      sleep 1
-      expect(File.read(@dir.join('bar')).chomp).to eq "foobar"
+      when_job_completes(response.fetch('id')) do
+        expect(File.read(@dir.join('bar')).chomp).to eq "foobar"
+      end
     end
 
   end
