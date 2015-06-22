@@ -2,7 +2,7 @@
 class Settings < Settingslogic
   # Read configuration
   namespace (defined?(APP_ENV) ? APP_ENV : "production")
-  source ((File.exists? APP_CONF) ? APP_CONF : Hash.new)
+  source ((const_defined?(:APP_CONF) && File.exists?(APP_CONF)) ? APP_CONF : Hash.new)
   suppress_errors true
 
   # Compute my PID filename
@@ -13,7 +13,8 @@ class Settings < Settingslogic
 
   # Direct access to any depth
   def at *path
-    path.reduce(Settings) { |m, key| m && m[key.to_s] }
+    val = path.reduce(Settings) { |m, key| m && m[key.to_s] }
+    val.nil? ? (yield if block_given?) : val
   end
 
   # Dump whole settings set to readable YAML

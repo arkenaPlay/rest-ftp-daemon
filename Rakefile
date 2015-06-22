@@ -13,4 +13,14 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.fail_on_error = false
 end
 
+desc "Open a Pry console"
+task :console, :env do |t, args|
+  args.with_defaults(env: "development")
+  APP_ENV = args[:env]
+  require "pry"
+  Bundler.setup
+  require "rest-ftp-daemon"
+  Pry.start
+end
+
 task :default => [:spec, :rubocop]
