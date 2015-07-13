@@ -1,24 +1,12 @@
 # Global libs
 require "rubygems"
 require "json"
-require "grape"
-require "grape-entity"
-require "haml"
-require "facter"
 require "uri"
-require "securerandom"
 require "timeout"
-require "sys/cpu"
 require "syslog"
-require "net/ftp"
-require "net/sftp"
 require "net/http"
-require "double_bag_ftps"
 require "thread"
-require "securerandom"
 require "singleton"
-require "logger"
-
 require "newrelic_rpm"
 
 
