@@ -1,10 +1,11 @@
-trap 'INT' do
-  RestFtpDaemon::Application.shutdown
-end
+# trap 'INT' do
+#   RestFtpDaemon::Application.shutdown
+# end
 
-trap 'TERM' do
-  RestFtpDaemon::Application.shutdown
-end
+# trap 'TERM' do
+#   RestFtpDaemon::Application.shutdown
+# end
+
 
 module RestFtpDaemon
   module Application

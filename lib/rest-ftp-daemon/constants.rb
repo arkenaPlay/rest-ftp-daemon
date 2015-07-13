@@ -3,6 +3,14 @@ APP_NAME = "rest-ftp-daemon"
 APP_NICK = "rftpd"
 APP_VER = "0.230.0"
 
+# Provide default config file information
+APP_LIB = File.expand_path File.dirname(__FILE__)
+APP_ROOT = File.expand_path(File.dirname(__FILE__) + "/../../")
+
+DEFAULT_CONFIG_PATH = File.expand_path "/etc/#{APP_NAME}.yml"
+SAMPLE_CONFIG_FILE = File.expand_path(File.join File.dirname(__FILE__), "/../../rest-ftp-daemon.yml.sample")
+
+#SAMPLE_CONFIG_FILE = File.expand_path("#{app_root}/#{APP_NAME}.yml.sample")
 
 # Jobs and workers
 JOB_RANDOM_LEN          = 8

@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+require "daemons"
+
+# Load base libs
+require_relative "../lib/rest-ftp-daemon/constants"
+# puts "APP_LIB: #{APP_LIB}"
+# puts "APP_ROOT: #{APP_ROOT}"
+require File.join APP_LIB, "runner"
+
+# Manage process
+RestFtpDaemon::Runner.run ARGV
