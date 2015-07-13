@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     rest-ftp-daemon (0.230.0)
+      celluloid
       double-bag-ftps
       facter
       get_process_mem
@@ -35,6 +36,47 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     builder (3.2.2)
+    celluloid (0.17.0)
+      bundler
+      celluloid-essentials
+      celluloid-extras
+      celluloid-fsm
+      celluloid-pool
+      celluloid-supervision
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
+    celluloid-essentials (0.20.0)
+      bundler
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
+    celluloid-extras (0.20.0)
+      bundler
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
+    celluloid-fsm (0.20.0)
+      bundler
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
+    celluloid-pool (0.20.0)
+      bundler
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
+    celluloid-supervision (0.20.0)
+      bundler
+      dotenv
+      nenv
+      rspec-logsplit (>= 0.1.2)
+      timers (~> 4.0.0)
     coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)

@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "thin", "~> 1.6"
+  spec.add_runtime_dependency "celluloid"
   spec.add_runtime_dependency "grape"
   spec.add_runtime_dependency "grape-entity"
   spec.add_runtime_dependency "settingslogic"
