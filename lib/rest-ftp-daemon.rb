@@ -52,3 +52,13 @@ require_relative "rest-ftp-daemon/api/job_presenter"
 require_relative "rest-ftp-daemon/api/jobs"
 require_relative "rest-ftp-daemon/api/dashboard"
 require_relative "rest-ftp-daemon/api/root"
+
+require_relative "rest-ftp-daemon/actors/actor_debug"
+require_relative "rest-ftp-daemon/actors/actor_worker"
+require_relative "rest-ftp-daemon/actors/actor_api"
+
+require_relative "rest-ftp-daemon/supervisor"
+require_relative "rest-ftp-daemon/application"
+require_relative "rest-ftp-daemon/runner"
+
+
