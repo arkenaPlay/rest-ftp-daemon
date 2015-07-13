@@ -6,6 +6,8 @@
 #   RestFtpDaemon::Application.shutdown
 # end
 
+require "celluloid"
+require_relative "celluloid_init"
 
 module RestFtpDaemon
   module Application

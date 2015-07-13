@@ -1,3 +1,5 @@
+require "celluloid"
+
 module RestFtpDaemon
   class ActorWorker
     include Celluloid

@@ -1,5 +1,8 @@
 require "settingslogic"
 
+# Initialize confiig file path
+APP_CONF ||= DEFAULT_CONFIG_PATH
+
 # Configuration class
 class Settings < Settingslogic
   # Read configuration

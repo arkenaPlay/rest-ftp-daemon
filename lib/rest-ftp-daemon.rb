@@ -8,6 +8,7 @@ require "net/http"
 require "thread"
 require "singleton"
 require "newrelic_rpm"
+# require 'celluloid'
 
 
 # Project's libs

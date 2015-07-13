@@ -1,3 +1,4 @@
+require "celluloid"
 require 'rack'
 require 'thin'
 # Lots of this file are inspired from https://github.com/berkshelf/berkshelf-api
