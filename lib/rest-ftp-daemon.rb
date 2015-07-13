@@ -20,8 +20,6 @@ require "singleton"
 require "logger"
 
 require "newrelic_rpm"
-require "get_process_mem"
-require 'celluloid/autostart'
 
 
 # Project's libs
