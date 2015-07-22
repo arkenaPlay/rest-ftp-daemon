@@ -44,7 +44,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "double-bag-ftps"
   spec.add_runtime_dependency "facter"
   spec.add_runtime_dependency "sys-cpu"
-  spec.add_runtime_dependency "timeout"
   spec.add_runtime_dependency "get_process_mem"
   spec.add_runtime_dependency "newrelic_rpm"
 end
